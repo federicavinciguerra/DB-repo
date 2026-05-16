@@ -1,0 +1,31 @@
+{
+  "name": "mlflow-job-demo",
+  "parameters": [
+    { "name": "n_samples", "default": "5000" },
+    { "name": "noise_std", "default": "20000" },
+    { "name": "n_estimators", "default": "300" },
+    { "name": "learning_rate", "default": "0.03" },
+    { "name": "max_depth", "default": "4" },
+    { "name": "random_state", "default": "42" },
+    { "name": "experiment_name", "default": "/Shared/mlflow-job-demo" }
+  ],
+  "tasks": [
+    {
+      "task_key": "train",
+      "existing_cluster_id": "<existing-cluster-id>",
+      "spark_python_task": {
+        "python_file": "src/train.py",
+        "source": "GIT",
+        "parameters": [
+          "--n_samples", "{{job.parameters.n_samples}}",
+          "--noise_std", "{{job.parameters.noise_std}}",
+          "--n_estimators", "{{job.parameters.n_estimators}}",
+          "--learning_rate", "{{job.parameters.learning_rate}}",
+          "--max_depth", "{{job.parameters.max_depth}}",
+          "--random_state", "{{job.parameters.random_state}}",
+          "--experiment_name", "{{job.parameters.experiment_name}}"
+        ]
+      }
+    }
+  ]
+}
